@@ -12,29 +12,27 @@ struct CurrentWeather {
     let cityName: String
     let description: String
     let humidity: Int
+    let visibility: Int
 
-    let temp: Double
+    private let temp: Double
     var tempInt: Int { return Int(temp.rounded()) }
 
-    let feelsLikeTemp: Double
+    private let feelsLikeTemp: Double
     var feelsLikeTempInt: Int { return Int(feelsLikeTemp.rounded()) }
 
-    let minTemp: Double
+    private let minTemp: Double
     var minTempInt: Int { return Int(minTemp.rounded()) }
 
-    let maxTemp: Double
+    private let maxTemp: Double
     var maxTempInt: Int { return Int(maxTemp.rounded()) }
 
-    let visibility: Int
-    var visibilityСonverted: Int { return visibility / 1000 }
-
-    let windSpeed: Double
+    private let windSpeed: Double
     var windSpeedInt: Int { return Int(windSpeed) }
 
-    let deg: Int
+    private let deg: Int
     var degConvert: Float { return Float(deg) * 6.29 / 360 }
     
-    let pressure: Double
+    private let pressure: Double
     var pressureСonverted: Int { return Int(pressure / 1.333) }
 
     init?(currentWeatherData: WeatherData) {

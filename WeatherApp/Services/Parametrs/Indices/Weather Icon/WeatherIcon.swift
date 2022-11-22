@@ -5,7 +5,7 @@
 //  Created by Владислав Моисеев on 08.11.2022.
 //
 
-import UIKit
+import Foundation
 
 class WeatherIcon {
     

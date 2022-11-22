@@ -9,18 +9,18 @@ import Foundation
 
 struct ForecastWeather {
     let id = UUID()
-    let mainWeather: MainWeather
-    let dateWeather: DateWeather
+    let main: MainWeather
+    let city: WeatherData.City
 }
 
 extension ForecastWeather {
     public enum MainWeather {
-        case weather(weather: List)
+        case weather(from: List)
     }
 }
 
-extension ForecastWeather{
-    public enum DateWeather {
-        case dateWeather(date: List)
+extension ForecastWeather {
+    public enum SunPosition {
+        case sunPosition(from: WeatherData.City)
     }
 }

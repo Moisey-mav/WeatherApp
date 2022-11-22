@@ -5,6 +5,7 @@
 //  Created by Владислав Моисеев on 08.11.2022.
 //
 
+import Foundation
 import UIKit
 
 class AirPollutionIndex {

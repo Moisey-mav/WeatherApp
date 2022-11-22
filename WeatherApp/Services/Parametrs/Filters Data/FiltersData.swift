@@ -5,7 +5,7 @@
 //  Created by Владислав Моисеев on 02.11.2022.
 //
 
-import UIKit
+import Foundation
 
 class FiltersData {
     
@@ -16,14 +16,15 @@ class FiltersData {
         if let firstDate = data.list.first?.dtTxt {
             let date = filterDay(date: firstDate)
             let nextDay = filterNextDay(date: firstDate)
-            for weather in data.list {
-                if date == filterDay(date: weather.dtTxt) {
-                    modernSection.append(ForecastWeather(mainWeather: .weather(weather: weather), dateWeather: .dateWeather(date: weather)))
-                } else if nextDay == filterDay(date: weather.dtTxt) {
-                    modernSection.append(ForecastWeather(mainWeather: .weather(weather: weather), dateWeather: .dateWeather(date: weather)))
+            for day in data.list {
+                if date == filterDay(date: day.dtTxt) {
+                    modernSection.append(ForecastWeather(main: .weather(from: day), city: data.city))
+                } else if nextDay == filterDay(date: day.dtTxt) {
+                    modernSection.append(ForecastWeather(main: .weather(from: day), city: data.city))
                 }
             }
         }
+        print(modernSection)
         return modernSection
     }
     
@@ -38,10 +39,10 @@ class FiltersData {
     func dayForecastFilter(data: WeatherData) -> [ForecastWeather] {
         var modernSection: [ForecastWeather] = []
         var date = ""
-        for weather in data.list {
-            if date != filterDay(date: weather.dtTxt) && modernSection.count != 5 {
-                modernSection.append(ForecastWeather(mainWeather: .weather(weather: weather), dateWeather: .dateWeather(date: weather)))
-                date = filterDay(date: weather.dtTxt)
+        for day in data.list {
+            if date != filterDay(date: day.dtTxt) && modernSection.count != 5 {
+                modernSection.append(ForecastWeather(main: .weather(from: day), city: data.city))
+                date = filterDay(date: day.dtTxt)
             }
         }
         return modernSection

@@ -9,14 +9,15 @@ import Foundation
 import CoreLocation
 
 protocol NetworkWeatherManagerDelegate: AnyObject {
-    func updateInterface(_: NetworkWeatherManager, with forecast: WeatherData)
-}
-
-protocol NetworkAirManagerDelegate: AnyObject {
-    func updateInterface(_:NetworkWeatherManager, with forecast: AirPollution)
+    func updateWeatherForecast(_: NetworkWeatherManager, with forecast: WeatherData)
+    func updateAirPollution(_:NetworkWeatherManager, with forecast: AirPollution)
 }
 
 class NetworkWeatherManager {
+    
+//    let filter = FiltersData()
+//    var hourlyForecast: [ForecastWeather] = []
+//    var dayDorecast: [ForecastWeather] = []
     
     enum RequestType {
         case cityName(city: String)
@@ -25,7 +26,6 @@ class NetworkWeatherManager {
     }
     
     public weak var delegateWeather: NetworkWeatherManagerDelegate?
-    public weak var delegateAir: NetworkAirManagerDelegate?
     
     func fetchCurrentWeather(forRequestType requestType: RequestType) {
         var urlString = ""
@@ -48,7 +48,8 @@ class NetworkWeatherManager {
             guard let data = data else { return }
             do {
                 let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
-                self.delegateWeather?.updateInterface(self, with: weatherData)
+                self.delegateWeather?.updateWeatherForecast(self, with: weatherData)
+                print(weatherData)
             } catch let error {
                 print("Error serialization json", error)
             }
@@ -61,7 +62,7 @@ class NetworkWeatherManager {
             guard let data = data else { return }
             do {
                 let airPollutionData = try JSONDecoder().decode(AirPollution.self, from: data)
-                self.delegateAir?.updateInterface(self, with: airPollutionData)
+                self.delegateWeather?.updateAirPollution(self, with: airPollutionData)
             } catch let error {
                 print("Error serialization json", error)
             }
