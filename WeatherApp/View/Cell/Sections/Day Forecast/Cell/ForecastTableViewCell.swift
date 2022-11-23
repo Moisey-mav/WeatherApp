@@ -104,7 +104,7 @@ extension ForecastTableViewCell {
     
     public func configureCell(with data: List) {
         labelDate.text = converter.converterDayForecast(with: data.dtTxt)
-        icon.image = UIImage(systemName: weatherIcon.setImage(index: data.weather.first?.id ?? 0))
+        icon.image = UIImage(systemName: weatherIcon.setImage(index: data.weather.first?.id ?? 0, pod: "d"))
         probabilityLabel.text = "\(Int(data.pop * 100)) %"
         minTemp.text = "\(Int(data.main.tempMin))°"
         maxTemp.text = "\(Int(data.main.tempMax))°"

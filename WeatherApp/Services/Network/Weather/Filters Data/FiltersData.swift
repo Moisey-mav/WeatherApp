@@ -40,11 +40,12 @@ class FiltersData {
         var modernSection: [ForecastWeather] = []
         var date = ""
         for day in data.list {
-            if date != filterDay(date: day.dtTxt) && modernSection.count != 5 {
+            if date != filterDay(date: day.dtTxt) && modernSection.count != 5 && day.sys.pod == "d" { 
                 modernSection.append(ForecastWeather(main: .weather(from: day), city: data.city))
                 date = filterDay(date: day.dtTxt)
             }
         }
+        print(modernSection)
         return modernSection
     }
     

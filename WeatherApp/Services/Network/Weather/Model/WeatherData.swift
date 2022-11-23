@@ -80,9 +80,15 @@ extension WeatherData {
     // MARK: - City
     struct City: Codable {
         let name: String
+        let coord: Coord
         let timezone: Int
         let sunrise: Int
         let sunset: Int
+    }
+    
+    struct Coord: Codable {
+        let lat: Double
+        let lon: Double
     }
 }
 

@@ -11,6 +11,14 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = .white
+        indicator.startAnimating()
+        return indicator
+    }()
+    
     let animationView: AnimationView  = {
         let animationView = AnimationView()
         animationView.animation = Animation.named("Сloudy1")
@@ -26,12 +34,12 @@ class WeatherViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 20, right: 15)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isHidden = true
         return collectionView
     }()
     
     let networkWeatherManager = NetworkWeatherManager()
     let location = LocationManager()
-    let footer = FooterCollectionViewCell()
     var tableModel = [WeatherTableSection]()
     var currentWeatherData: CurrentWeather?
     var weatherData: WeatherData?
@@ -53,6 +61,7 @@ class WeatherViewController: UIViewController {
     }
     
     private func setupUI() {
+        view.backgroundColor = .gray
         setupCollection()
         setConstraint()
         settingNavigationBar()
@@ -91,7 +100,6 @@ class WeatherViewController: UIViewController {
         weatherCollection.delegate = self
         networkWeatherManager.delegateWeather = self
         location.locationDelegate = self
-        footer.delegate = self
     }
     
     private func configureSections() {
@@ -108,6 +116,10 @@ class WeatherViewController: UIViewController {
         animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         animationView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         animationView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        animationView.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         animationView.addSubview(weatherCollection)
     }
 }
@@ -221,7 +233,6 @@ extension WeatherViewController: LocationManagerDelegate {
     func updateInterface(location: CLLocation) {
         DispatchQueue.main.async {
             self.networkWeatherManager.fetchCurrentWeather(forRequestType: .coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
-            self.networkWeatherManager.fetchCurrentWeather(forRequestType: .airPollution(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
             self.weatherCollection.reloadData()
         }
     }
@@ -232,6 +243,9 @@ extension WeatherViewController: NetworkWeatherManagerDelegate {
         DispatchQueue.main.async {
             self.weatherData = forecast
             self.currentWeatherData = CurrentWeather(currentWeatherData: forecast)
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+            self.weatherCollection.fadeIn()
             self.weatherCollection.reloadData()
         }
     }

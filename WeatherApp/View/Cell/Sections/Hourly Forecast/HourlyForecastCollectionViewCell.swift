@@ -117,7 +117,7 @@ extension HourlyForecastCollectionViewCell: UICollectionViewDataSource {
         switch hourlyWeather[indexPath.row].main {
         case .weather(let data):
             guard let forecastCell = collectionView.dequeueReusableCell(withReuseIdentifier: ForecastHoursCollectionViewCell.identifier, for: indexPath) as? ForecastHoursCollectionViewCell else { return UICollectionViewCell() }
-            forecastCell.configureCell(from: data)
+            forecastCell.configureCell(from: data, podIndex: data.sys.pod)
             cell = forecastCell
         }
         return cell

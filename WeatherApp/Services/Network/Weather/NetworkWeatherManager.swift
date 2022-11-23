@@ -15,10 +15,6 @@ protocol NetworkWeatherManagerDelegate: AnyObject {
 
 class NetworkWeatherManager {
     
-//    let filter = FiltersData()
-//    var hourlyForecast: [ForecastWeather] = []
-//    var dayDorecast: [ForecastWeather] = []
-    
     enum RequestType {
         case cityName(city: String)
         case coordinate(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
@@ -49,7 +45,7 @@ class NetworkWeatherManager {
             do {
                 let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
                 self.delegateWeather?.updateWeatherForecast(self, with: weatherData)
-                print(weatherData)
+                self.fetchCurrentWeather(forRequestType: .airPollution(latitude: weatherData.city.coord.lat, longitude: weatherData.city.coord.lon))
             } catch let error {
                 print("Error serialization json", error)
             }

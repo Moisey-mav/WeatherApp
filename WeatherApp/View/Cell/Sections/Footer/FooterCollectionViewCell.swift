@@ -13,7 +13,6 @@ class FooterCollectionViewCell: UICollectionViewCell {
     
     weak var viewController: UIViewController?
     private let networkWeatherManager = NetworkWeatherManager()
-    var delegate: AlertControllerDelegate?
     
     private let footerTable: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)

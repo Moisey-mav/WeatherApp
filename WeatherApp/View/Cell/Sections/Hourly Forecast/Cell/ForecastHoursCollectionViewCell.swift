@@ -83,9 +83,9 @@ class ForecastHoursCollectionViewCell: UICollectionViewCell {
 
 extension ForecastHoursCollectionViewCell {
     
-    public func configureCell(from data: List) {
+    public func configureCell(from data: List, podIndex: String) {
         title.text = сonverter(with: data.dtTxt)
-        icon.image = UIImage(systemName: weatherIcon.setImage(index: data.weather.first?.id ?? 0))
+        icon.image = UIImage(systemName: weatherIcon.setImage(index: data.weather.first?.id ?? 0, pod: podIndex))
         probabilityLabel.text = "\(Int(data.pop * 100)) %"
         temperature.text = "\(Int(data.main.temp))°"
     }
