@@ -13,6 +13,8 @@ protocol LocationManagerDelegate: AnyObject {
 }
 
 class LocationManager: NSObject {
+    
+    static let shared = LocationManager()
 
     public weak var locationDelegate: LocationManagerDelegate?
     var networkWeatherManager = NetworkWeatherManager()
@@ -39,8 +41,5 @@ extension LocationManager: CLLocationManagerDelegate {
     func requestWeatherForLocation() {
         guard let currentLocation = currentLocation else { return }
         self.locationDelegate?.updateInterface(location: currentLocation)
-//        let long = currentLocation.coordinate.longitude
-//        let lat = currentLocation.coordinate.latitude
-//        networkWeatherManager.fetchCurrentWeather(forRequestType: .coordinate(latitude: lat, longitude: long))
     }
 }
